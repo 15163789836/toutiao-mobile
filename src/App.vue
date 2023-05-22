@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-   123
+    
     <!-- 路由出口  路由渲染的页面 -->
     <router-view/>
+
   </div>
 </template>
 
