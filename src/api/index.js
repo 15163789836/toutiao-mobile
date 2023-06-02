@@ -43,3 +43,35 @@ export const getUserChanels = (data) =>{
 
 
 
+//获取联想建议（自动补全
+export const Lenovosuggests = (q) =>{
+    return request({
+        method:'GET',
+        url:`v1_0/suggestion`,
+        params:{
+            q
+        }
+        
+    })
+}
+
+
+//获取搜索结果
+export const Searchresults = (params) =>{
+    return request({
+        method:'GET',
+        url:`v1_0/search`,
+        params
+        
+    })
+}
+
+
+//获取新闻详情
+export const Newsdetails = (id) =>{
+    return request({
+        method:'GET',
+        url:`v1_0/articles/${id}`
+        
+    })
+}

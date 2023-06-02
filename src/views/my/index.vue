@@ -8,14 +8,13 @@
    <van-image
    class="avater"
    slot="icon"
-
   src="https://img01.yzcdn.cn/vant/cat.jpeg"
   round
 />
 
 <div slot="title"    class="name">{{userdata.name}}</div>
 
-<van-button class="updete-but" plain size='small' hairline type="info" round>编辑资料</van-button>
+<van-button class="updete-but" plain size='small' hairline type="info" to="/user/profile" round>编辑资料</van-button>
 
  </van-cell>
 
@@ -106,6 +105,7 @@ export default {
        },//用户详情
 
        ExitLogin(){
+
          Dialog.confirm({
   title: '提升',
   message: '是否删除',
@@ -116,6 +116,7 @@ export default {
   .catch(() => {
     // on cancel
   });
+  
         
        },//退出登陆
 

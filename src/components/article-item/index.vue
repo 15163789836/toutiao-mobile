@@ -1,5 +1,10 @@
 <template>
-<van-cell class="article-item">
+<van-cell class="article-item" :to="{
+    name:'article',
+    query:{
+        articleId:item.title
+    }
+}">
     <div class="title" slot="title">{{item.title}} </div>
 
 

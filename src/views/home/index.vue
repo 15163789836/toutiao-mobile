@@ -2,7 +2,7 @@
 <div class="home-container"> 
 <!--  导航搜索 -->
   <van-nav-bar class="app-nav-bar">
-    <van-button class="app-but" slot="title" size="small" icon="search" round type="info">搜索</van-button>
+    <van-button class="app-but" slot="title" size="small" icon="search" round type="info" to="/search">搜索</van-button>
   </van-nav-bar>
 
   <!-- 文章频道 -->
@@ -11,11 +11,32 @@
     <!-- 文章内容 -->
 
 <aryicle-list  :item="item"/>
-
-
   </van-tab>
- 
+<div slot="nav-right"  class="nav-right-zw"> </div>
+
+  <div slot="nav-right" class="tab-nav" @click="show = true">
+   <van-icon name="bars" />
+     </div>
 </van-tabs>
+
+<van-popup 
+v-model="show"
+
+ position="bottom"
+
+  closeable 
+  close-icon-position='top-left'
+  style="height:100% "
+   get-container="body" 
+   >
+   <channelEdit :userchannels="channels" @update-active =' active = $event'  @isshow ="isshow" :active="active" />
+
+
+</van-popup>
+
+
+
+
 </div>
   <!-- <van-icon name="search" /> -->
 </template>
@@ -23,16 +44,21 @@
 <script>
 import { getUserChanels } from "@/api/index"
 import AryicleList from './compontnts/aryicle-list'
+
+
+import channelEdit from './compontnts/channel-edit.vue'
 export default {
     name:'Login',//名称
     components:{
-      AryicleList
+      AryicleList,
+      channelEdit,
     },//组件
     props:{},
     data(){
       return {
         channels:[],
-        active:0
+        active:0,
+        show:false
 
       }
     },
@@ -42,6 +68,7 @@ export default {
 
     },//初始化后
     mounted(){
+      
      
        
 
@@ -50,11 +77,49 @@ export default {
     },//挂载后
 
      methods:{
+  isshow(index){
+  this.show = false 
+
+  this.active = index
+      },
+
         loadChanneles(){
- getUserChanels().then(res=>{
-          console.log(res.data.data.channels);
+
+  if(this.$store.state.user){
+    
+
+    getUserChanels().then(res=>{
        this.channels = res.data.data.channels
-        })
+        }) 
+
+
+
+
+
+  }else{
+
+    if(window.localStorage.getItem('user-channels')){
+    this.channels =   JSON.parse(window.localStorage.getItem('user-channels'))
+
+    }else{
+      getUserChanels().then(res=>{
+        console.log('res',res);
+
+        this.channels = res.data.data.channels
+      })
+
+    }
+
+
+
+  }
+
+
+
+
+
+
+
       }
 
 
@@ -88,6 +153,22 @@ export default {
     }
   }
   .channel-tabs{
+    .nav-right-zw{
+      width: 32px;
+      flex-shrink: 0;
+    }
+    .tab-nav{
+      position: fixed;
+      right: 0;
+      width: 33px;
+      height: 42px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      opacity: .8;
+
+    }
     /deep/ .van-tab{
 
     border-right: 1px solid rgb(195, 195, 195) !important;
